@@ -66,7 +66,7 @@ class ProductServiceIntegrationTests {
         Assertions.assertThrows(ResourceNotFoundException.class,
                 () -> productService.getProduct(0));
     }
-
+@Test
     void getProducts_whenOneExistingProduct_thenReturnPageOfOneProduct() {
         Product product = createProduct();
 
