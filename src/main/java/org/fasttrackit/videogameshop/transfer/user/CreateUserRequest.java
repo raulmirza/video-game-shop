@@ -1,21 +1,24 @@
 package org.fasttrackit.videogameshop.transfer.user;
 
+import org.fasttrackit.videogameshop.domain.User;
+import org.fasttrackit.videogameshop.domain.UserRole;
+
 import javax.validation.constraints.NotNull;
 
 public class CreateUserRequest {
 
     @NotNull
-    private String role;
+    private UserRole role;
     @NotNull
     private String firstName;
     @NotNull
     private String lastName;
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

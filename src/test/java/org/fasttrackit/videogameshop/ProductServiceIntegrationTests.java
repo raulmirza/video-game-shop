@@ -3,17 +3,21 @@ package org.fasttrackit.videogameshop;
 import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.service.ProductService;
+import org.fasttrackit.videogameshop.transfer.GetProductsRequest;
 import org.fasttrackit.videogameshop.transfer.SaveProductRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import javax.validation.ConstraintViolationException;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 @SpringBootTest
 class ProductServiceIntegrationTests {
@@ -61,6 +65,16 @@ class ProductServiceIntegrationTests {
     void getProduct_whenNonExistingProduct_thenThrowResourceNotFoundException() {
         Assertions.assertThrows(ResourceNotFoundException.class,
                 () -> productService.getProduct(0));
+    }
+
+    void getProducts_whenOneExistingProduct_thenReturnPageOfOneProduct() {
+        Product product = createProduct();
+
+        final Page<Product> productsPage = productService.getProducts(new GetProductsRequest(), PageRequest.of(0, 100));
+
+        assertThat(productsPage, notNullValue());
+        assertThat(productsPage.getTotalElements(), greaterThanOrEqualTo(1L));
+
     }
 
     @Test

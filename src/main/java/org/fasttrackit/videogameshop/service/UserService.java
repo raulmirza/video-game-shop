@@ -2,6 +2,7 @@ package org.fasttrackit.videogameshop.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fasttrackit.videogameshop.domain.User;
+import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.persistance.UserRepository;
 import org.fasttrackit.videogameshop.transfer.user.CreateUserRequest;
 import org.slf4j.Logger;
@@ -28,5 +29,12 @@ public class UserService {
 
         return userRepository.save(user);
 
+    }
+
+    public User getUser(long id) {
+        LOGGER.info("Retrieving user {}", id);
+
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User " + id + " not found"));
     }
 }
