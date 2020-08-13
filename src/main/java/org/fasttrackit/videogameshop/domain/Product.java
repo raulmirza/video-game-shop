@@ -1,10 +1,9 @@
 package org.fasttrackit.videogameshop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Product {
@@ -21,6 +20,9 @@ public class Product {
     private String imageUrl;
     @NotNull
     private int quantity;
+
+    @ManyToMany(mappedBy = "products")
+    private Set<Cart> carts = new HashSet<>();
 
     public long getId() {
         return id;
@@ -69,6 +71,14 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Set<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(Set<Cart> carts) {
+        this.carts = carts;
     }
 
     @Override
