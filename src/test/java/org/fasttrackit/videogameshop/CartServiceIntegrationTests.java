@@ -35,6 +35,6 @@ public class CartServiceIntegrationTests {
         cartRequest.setUserId(user.getId());
         cartRequest.setProductIds(Collections.singletonList(product.getId()));
 
-        cartService.addProductsToCart(cartRequest);
+//        cartService.addProductsToCart(user.getId(), request);
     }
 }

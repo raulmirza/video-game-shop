@@ -15,10 +15,9 @@ import org.springframework.data.domain.PageRequest;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.hamcrest.CoreMatchers.*;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 class ProductServiceIntegrationTests {
@@ -77,6 +76,7 @@ class ProductServiceIntegrationTests {
 
         assertThat(productsPage, notNullValue());
         assertThat(productsPage.getTotalElements(), greaterThanOrEqualTo(1L));
+        assertThat(productsPage.getContent(), contains(product));
 
     }
 

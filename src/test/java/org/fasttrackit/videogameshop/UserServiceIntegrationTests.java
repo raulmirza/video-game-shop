@@ -3,7 +3,9 @@ package org.fasttrackit.videogameshop;
 import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.domain.UserRole;
 import org.fasttrackit.videogameshop.service.UserService;
+import org.fasttrackit.videogameshop.transfer.SaveProductRequest;
 import org.fasttrackit.videogameshop.transfer.user.CreateUserRequest;
+import org.fasttrackit.videogameshop.transfer.user.SaveUserRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,8 +41,8 @@ public class UserServiceIntegrationTests {
     }
 
     private User createUser() {
-        CreateUserRequest request = new CreateUserRequest();
-        request.setRole(UserRole.CUSTOMER);
+        SaveUserRequest request = new SaveUserRequest();
+
         request.setFirstName("Test First Name");
         request.setLastName("Test Last Name");
 
@@ -48,7 +50,7 @@ public class UserServiceIntegrationTests {
 
         assertThat(user, notNullValue());
         assertThat(user.getId(), greaterThan(0L));
-        assertThat(user.getRole(), is(request.getRole().name()));
+//        assertThat(user.getRole(), is(request.getRole().name()));
         assertThat(user.getFirstName(), is(request.getFirstName()));
         assertThat(user.getLastName(), is(request.getLastName()));
 

@@ -20,6 +20,8 @@ public class Product {
     private String imageUrl;
     @NotNull
     private int quantity;
+    @NotNull
+    private Category category;
 
     @ManyToMany(mappedBy = "products")
     private Set<Cart> carts = new HashSet<>();

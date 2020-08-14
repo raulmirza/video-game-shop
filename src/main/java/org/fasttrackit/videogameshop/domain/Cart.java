@@ -1,6 +1,7 @@
 package org.fasttrackit.videogameshop.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,10 +15,11 @@ public class Cart {
     @MapsId
     private User user;
 
+
     @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "cart product",
-    joinColumns = @JoinColumn(name = "cart id"),
-    inverseJoinColumns = @JoinColumn( name = "product id"))
+    @JoinTable(name = "cart_product",
+    joinColumns = @JoinColumn(name = "cart_id"),
+    inverseJoinColumns = @JoinColumn( name = "product_id"))
     private Set<Product> products = new HashSet<>();
 
     public void addProductToCart(Product product) {
