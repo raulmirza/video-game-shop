@@ -3,7 +3,6 @@ package org.fasttrackit.videogameshop.transfer.user;
 import org.fasttrackit.videogameshop.domain.UserRole;
 
 import javax.validation.constraints.NotNull;
-import java.util.prefs.Preferences;
 
 public class SaveUserRequest {
 
@@ -11,6 +10,7 @@ public class SaveUserRequest {
     private String firstName;
     @NotNull
     private String lastName;
+    private UserRole role;
 
 
     public String getFirstName() {
@@ -37,4 +37,11 @@ public class SaveUserRequest {
                 '}';
     }
 
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
 }

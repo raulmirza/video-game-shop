@@ -2,7 +2,7 @@ package org.fasttrackit.videogameshop.steps;
 
 import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.service.ProductService;
-import org.fasttrackit.videogameshop.transfer.SaveProductRequest;
+import org.fasttrackit.videogameshop.transfer.Product.SaveProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

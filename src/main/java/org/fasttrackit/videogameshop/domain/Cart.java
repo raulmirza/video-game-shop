@@ -1,12 +1,12 @@
 package org.fasttrackit.videogameshop.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Cart {
+
 
     @Id
     private long id;
@@ -18,8 +18,8 @@ public class Cart {
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "cart_product",
-    joinColumns = @JoinColumn(name = "cart_id"),
-    inverseJoinColumns = @JoinColumn( name = "product_id"))
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> products = new HashSet<>();
 
     public void addProductToCart(Product product) {
@@ -29,7 +29,7 @@ public class Cart {
     }
 
     public void removeProductFromCart(Product product) {
-        products.remove(product);
+        products.remove(products);
 
         product.getCarts().remove(this);
     }
@@ -56,5 +56,13 @@ public class Cart {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", user=" + user +
+                '}';
     }
 }

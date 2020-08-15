@@ -1,5 +1,6 @@
 package org.fasttrackit.videogameshop.web;
 
+import org.fasttrackit.videogameshop.domain.Cart;
 import org.fasttrackit.videogameshop.service.CartService;
 import org.fasttrackit.videogameshop.transfer.cart.AddProductsToCartRequest;
 import org.fasttrackit.videogameshop.transfer.cart.CartResponse;

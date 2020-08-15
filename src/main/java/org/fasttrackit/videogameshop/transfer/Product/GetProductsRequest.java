@@ -1,4 +1,4 @@
-package org.fasttrackit.videogameshop.transfer;
+package org.fasttrackit.videogameshop.transfer.Product;
 
 public class GetProductsRequest {
     private String partialName;

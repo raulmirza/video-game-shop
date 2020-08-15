@@ -1,17 +1,22 @@
-package org.fasttrackit.videogameshop.transfer;
+package org.fasttrackit.videogameshop.transfer.Product;
 
 import javax.validation.constraints.NotNull;
 
-public class SaveProductRequest {
-
-    @NotNull
+public class ProductResponse {
+    private long id;
     private String name;
     private String description;
-    @NotNull
     private double price;
     private String imageUrl;
-    @NotNull
     private int quantity;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -51,16 +56,5 @@ public class SaveProductRequest {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "SaveProductRequest{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", quantity=" + quantity +
-                '}';
     }
 }

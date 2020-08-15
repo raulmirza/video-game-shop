@@ -3,8 +3,8 @@ package org.fasttrackit.videogameshop.transfer.cart;
 import java.util.List;
 
 public class CartResponse {
-
     private long id;
+
     private List<ProductInCartResponse> products;
 
     public long getId() {

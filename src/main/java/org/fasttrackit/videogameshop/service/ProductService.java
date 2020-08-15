@@ -3,18 +3,20 @@ package org.fasttrackit.videogameshop.service;
 import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.persistance.ProductRepository;
-import org.fasttrackit.videogameshop.transfer.GetProductsRequest;
-import org.fasttrackit.videogameshop.transfer.SaveProductRequest;
+import org.fasttrackit.videogameshop.transfer.Product.GetProductsRequest;
+import org.fasttrackit.videogameshop.transfer.Product.ProductResponse;
+import org.fasttrackit.videogameshop.transfer.Product.SaveProductRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -49,18 +51,28 @@ public class ProductService {
                  .orElseThrow(() -> new ResourceNotFoundException("Product " + id + " not found."));
     }
 
-    public Page<Product> getProducts(GetProductsRequest request, Pageable pageable) {
-//       if(request.getPartialName() != null && request.getMinimumQuantity() != null) {
-//          return productRepository.findByNameContainingAndQuantityGreaterThanEqual(
-//                   request.getPartialName(), request.getMinimumQuantity(), pageable);
-//       }else if(request.getPartialName() != null) {
-//           return productRepository.findByNameContaining(request.getPartialName(), pageable);
-//       }else {
-//           return productRepository.findAll(pageable);
-//       }
-        return  productRepository.findByOptionalCriteria(
+    public Page<ProductResponse> getProducts(GetProductsRequest request, Pageable pageable) {
+
+        final Page<Product> page = productRepository.findByOptionalCriteria(
                 request.getPartialName(), request.getMinimumQuantity(), pageable);
-   }
+
+        List<ProductResponse> productDtos = new ArrayList<>();
+
+        for (Product product : page.getContent()) {
+            ProductResponse productResponse = new ProductResponse();
+            productResponse.setId(product.getId());
+            productResponse.setPrice(product.getPrice());
+            productResponse.setName(product.getName());
+            productResponse.setImageUrl(product.getImageUrl());
+            productResponse.setQuantity(product.getQuantity());
+            productResponse.setDescription(product.getDescription());
+
+            productDtos.add(productResponse);
+        }
+
+        return new PageImpl<>(productDtos, pageable, page.getTotalElements());
+
+    }
 
     public Product updateProduct(long id, SaveProductRequest request) {
         LOGGER.info("Updating product {}: {}", id, request);

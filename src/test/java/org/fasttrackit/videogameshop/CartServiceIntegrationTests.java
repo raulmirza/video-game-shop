@@ -6,11 +6,18 @@ import org.fasttrackit.videogameshop.service.CartService;
 import org.fasttrackit.videogameshop.steps.ProductTestSteps;
 import org.fasttrackit.videogameshop.steps.UserSteps;
 import org.fasttrackit.videogameshop.transfer.cart.AddProductsToCartRequest;
+import org.fasttrackit.videogameshop.transfer.cart.CartResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+
 
 @SpringBootTest
 public class CartServiceIntegrationTests {
@@ -32,9 +39,20 @@ public class CartServiceIntegrationTests {
         final Product product = productTestSteps.createProduct();
 
         AddProductsToCartRequest cartRequest = new AddProductsToCartRequest();
-        cartRequest.setUserId(user.getId());
         cartRequest.setProductIds(Collections.singletonList(product.getId()));
 
-//        cartService.addProductsToCart(user.getId(), request);
+        cartService.addProductsToCart(user.getId(), cartRequest);
+
+        final CartResponse cartResponse = cartService.getCart(user.getId());
+
+        assertThat(cartResponse, notNullValue());
+        assertThat(cartResponse.getId(), is(user.getId()));
+        assertThat(cartResponse.getProducts(), notNullValue());
+        assertThat(cartResponse.getProducts(), hasSize(1));
+        assertThat(cartResponse.getProducts().get(0), notNullValue());
+        assertThat(cartResponse.getProducts().get(0).getId(), is(product.getId()));
+        assertThat(cartResponse.getProducts().get(0).getName(), is(product.getName()));
+        assertThat(cartResponse.getProducts().get(0).getPrice(), is(product.getPrice()));
+        assertThat(cartResponse.getProducts().get(0).getImageUrl(), is(product.getImageUrl()));
     }
 }

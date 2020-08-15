@@ -1,14 +1,12 @@
 package org.fasttrackit.videogameshop.web;
-
-
 import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.service.ProductService;
-import org.fasttrackit.videogameshop.transfer.GetProductsRequest;
-import org.fasttrackit.videogameshop.transfer.SaveProductRequest;
+import org.fasttrackit.videogameshop.transfer.Product.GetProductsRequest;
+import org.fasttrackit.videogameshop.transfer.Product.ProductResponse;
+import org.fasttrackit.videogameshop.transfer.Product.SaveProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +46,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Product>> getProducts(@Valid GetProductsRequest request, Pageable pageable) {
-        final Page<Product> products = productService.getProducts(request, pageable);
+    public ResponseEntity<Page<ProductResponse>> getProducts(@Valid GetProductsRequest request, Pageable pageable) {
+         Page<ProductResponse> products = productService.getProducts(request, pageable);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

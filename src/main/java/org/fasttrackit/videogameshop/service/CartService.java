@@ -35,8 +35,6 @@ public class CartService {
 
     @Transactional
     public void addProductsToCart(long userId, AddProductsToCartRequest request) {
-
-
         LOGGER.info("Adding products to cart: {}", request);
 
         final Cart cart = cartRepository.findById(request.getUserId())
@@ -75,9 +73,8 @@ public class CartService {
 
             productDtos.add(productResponse);
         }
-        cartResponse.setProducts(productDtos);
+      cartResponse.setProducts(productDtos);
 
         return cartResponse;
     }
-
 }

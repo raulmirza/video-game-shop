@@ -1,6 +1,5 @@
 package org.fasttrackit.videogameshop.transfer.user;
 
-import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.domain.UserRole;
 
 import javax.validation.constraints.NotNull;

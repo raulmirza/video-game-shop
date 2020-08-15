@@ -1,11 +1,14 @@
 package org.fasttrackit.videogameshop;
 
 import org.fasttrackit.videogameshop.domain.Product;
+import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.service.ProductService;
 import org.fasttrackit.videogameshop.steps.ProductTestSteps;
-import org.fasttrackit.videogameshop.transfer.GetProductsRequest;
-import org.fasttrackit.videogameshop.transfer.SaveProductRequest;
+import org.fasttrackit.videogameshop.steps.UserSteps;
+import org.fasttrackit.videogameshop.transfer.Product.GetProductsRequest;
+import org.fasttrackit.videogameshop.transfer.Product.ProductResponse;
+import org.fasttrackit.videogameshop.transfer.Product.SaveProductRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ class ProductServiceIntegrationTests {
 
     @Autowired
     private ProductTestSteps productTestSteps;
+
+
     @Test
     void createProduct_whenValidRequest_returnCreatedProduct() {
         productTestSteps.createProduct();
@@ -50,8 +55,7 @@ class ProductServiceIntegrationTests {
     @Test
     void getProduct_whenExistingProduct_thenReturnProduct() {
         final Product product = productTestSteps.createProduct();
-
-        final Product response = productService.getProduct(product.getId());
+        Product response = productService.getProduct(product.getId());
 
         assertThat(response, notNullValue());
         assertThat(response.getId(), is(product.getId()));
@@ -72,11 +76,11 @@ class ProductServiceIntegrationTests {
     void getProducts_whenOneExistingProduct_thenReturnPageOfOneProduct() {
         Product product = productTestSteps.createProduct();
 
-        final Page<Product> productsPage = productService.getProducts(new GetProductsRequest(), PageRequest.of(0, 100));
+        final Page<ProductResponse> productsPage = productService.getProducts(new GetProductsRequest(), PageRequest.of(0, 100));
 
         assertThat(productsPage, notNullValue());
-        assertThat(productsPage.getTotalElements(), greaterThanOrEqualTo(1L));
-        assertThat(productsPage.getContent(), contains(product));
+        assertThat(productsPage.getTotalElements(), is(1L));
+        assertThat(productsPage.getContent().get(0).getId(), is(product.getId()));
 
     }
 

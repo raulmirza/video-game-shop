@@ -1,7 +1,6 @@
 package org.fasttrackit.videogameshop.transfer.cart;
 
 public class ProductInCartResponse {
-
     private long id;
     private String name;
     private double price;

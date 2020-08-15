@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.persistance.UserRepository;
-import org.fasttrackit.videogameshop.transfer.user.CreateUserRequest;
 import org.fasttrackit.videogameshop.transfer.user.SaveUserRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
