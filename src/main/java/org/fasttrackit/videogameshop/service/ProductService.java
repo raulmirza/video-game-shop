@@ -45,14 +45,15 @@ public class ProductService {
         product.setImageUrl(request.getImageUrl());
 
         final Product savedProduct = productRepository.save(product);
-        return objectMapper.convertValue(savedProduct, ProductResponse.class);
+        return mapProductResponse(savedProduct);
     }
+
 
     public ProductResponse getProductResponse(long id) {
         LOGGER.info("Retrieving product {}", id);
 
         final Product product = getProduct(id);
-        return objectMapper.convertValue(product, ProductResponse.class);
+        return mapProductResponse(product);
     }
 
     public Product getProduct(long id) {
@@ -68,13 +69,7 @@ public class ProductService {
         List<ProductResponse> productDtos = new ArrayList<>();
 
         for (Product product : page.getContent()) {
-            ProductResponse productResponse = new ProductResponse();
-            productResponse.setId(product.getId());
-            productResponse.setPrice(product.getPrice());
-            productResponse.setName(product.getName());
-            productResponse.setImageUrl(product.getImageUrl());
-            productResponse.setQuantity(product.getQuantity());
-            productResponse.setDescription(product.getDescription());
+            ProductResponse productResponse = mapProductResponse(product);
 
             productDtos.add(productResponse);
         }
@@ -92,11 +87,23 @@ public class ProductService {
 
         Product savedProduct = productRepository.save(product);
 
-        return objectMapper.convertValue(savedProduct, ProductResponse.class);
+        return mapProductResponse(savedProduct);
     }
 
     public void deleteProduct(long id) {
         LOGGER.info("Deleting product {}", id);
         productRepository.deleteById(id);
+    }
+
+    private ProductResponse mapProductResponse(Product product) {
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setId(product.getId());
+        productResponse.setPrice(product.getPrice());
+        productResponse.setName(product.getName());
+        productResponse.setImageUrl(product.getImageUrl());
+        productResponse.setQuantity(product.getQuantity());
+        productResponse.setDescription(product.getDescription());
+
+        return  productResponse;
     }
 }

@@ -1,6 +1,5 @@
 package org.fasttrackit.videogameshop.steps;
 
-import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.service.ProductService;
 import org.fasttrackit.videogameshop.transfer.Product.ProductResponse;
 import org.fasttrackit.videogameshop.transfer.Product.SaveProductRequest;
