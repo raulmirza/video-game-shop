@@ -1,11 +1,9 @@
 package org.fasttrackit.videogameshop;
 
 import org.fasttrackit.videogameshop.domain.Product;
-import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.service.ProductService;
 import org.fasttrackit.videogameshop.steps.ProductTestSteps;
-import org.fasttrackit.videogameshop.steps.UserSteps;
 import org.fasttrackit.videogameshop.transfer.Product.GetProductsRequest;
 import org.fasttrackit.videogameshop.transfer.Product.ProductResponse;
 import org.fasttrackit.videogameshop.transfer.Product.SaveProductRequest;
@@ -54,8 +52,8 @@ class ProductServiceIntegrationTests {
 
     @Test
     void getProduct_whenExistingProduct_thenReturnProduct() {
-        final Product product = productTestSteps.createProduct();
-        Product response = productService.getProduct(product.getId());
+        final ProductResponse product = productTestSteps.createProduct();
+        ProductResponse response = productService.getProductResponse(product.getId());
 
         assertThat(response, notNullValue());
         assertThat(response.getId(), is(product.getId()));
@@ -70,11 +68,11 @@ class ProductServiceIntegrationTests {
     @Test
     void getProduct_whenNonExistingProduct_thenThrowResourceNotFoundException() {
         Assertions.assertThrows(ResourceNotFoundException.class,
-                () -> productService.getProduct(0));
+                () -> productService.getProductResponse(0));
     }
 @Test
     void getProducts_whenOneExistingProduct_thenReturnPageOfOneProduct() {
-        Product product = productTestSteps.createProduct();
+        ProductResponse product = productTestSteps.createProduct();
 
         final Page<ProductResponse> productsPage = productService.getProducts(new GetProductsRequest(), PageRequest.of(0, 100));
 
@@ -82,18 +80,19 @@ class ProductServiceIntegrationTests {
         assertThat(productsPage.getTotalElements(), is(1L));
         assertThat(productsPage.getContent().get(0).getId(), is(product.getId()));
 
+
     }
 
     @Test
     void updateProduct_whenValidRequest_thenReturnUpdatedProduct() {
-        final Product product = productTestSteps.createProduct();
+        final ProductResponse product = productTestSteps.createProduct();
 
         SaveProductRequest request = new SaveProductRequest();
         request.setName(product.getName() + "Updated");
         request.setPrice(request.getPrice() + 10);
         request.setQuantity(request.getQuantity() + 10);
 
-        final Product updatedProduct = productService.updateProduct(product.getId(), request);
+        final ProductResponse updatedProduct = productService.updateProduct(product.getId(), request);
 
         assertThat(updatedProduct, notNullValue());
         assertThat(updatedProduct.getId(), is(product.getId()));
@@ -103,12 +102,12 @@ class ProductServiceIntegrationTests {
     }
 
     void deleteProduct_whenExistingProduct_ThenProductDoesNotExistAnymore() {
-        Product product = productTestSteps.createProduct();
+        ProductResponse product = productTestSteps.createProduct();
 
         productService.deleteProduct(product.getId());
 
         Assertions.assertThrows(ResourceNotFoundException.class,
-                () -> productService.getProduct(product.getId()));
+                () -> productService.getProductResponse(product.getId()));
 
     }
 

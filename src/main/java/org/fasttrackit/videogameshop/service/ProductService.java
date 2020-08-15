@@ -1,5 +1,6 @@
 package org.fasttrackit.videogameshop.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.exception.ResourceNotFoundException;
 import org.fasttrackit.videogameshop.persistance.ProductRepository;
@@ -21,17 +22,19 @@ import java.util.List;
 
 @Service
 public class ProductService {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 
     private final ProductRepository productRepository;
+    private final ObjectMapper objectMapper;
+
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ObjectMapper objectMapper) {
         this.productRepository = productRepository;
+        this.objectMapper = objectMapper;
     }
 
-    public Product createProduct(SaveProductRequest request) {
+    public ProductResponse createProduct(SaveProductRequest request) {
         System.out.println("Creating product: " + request);
         LOGGER.info("Creating product {}", request);
         Product product = new Product();
@@ -41,14 +44,20 @@ public class ProductService {
         product.setQuantity(request.getQuantity());
         product.setImageUrl(request.getImageUrl());
 
-       return productRepository.save(product);
+        final Product savedProduct = productRepository.save(product);
+        return objectMapper.convertValue(savedProduct, ProductResponse.class);
+    }
+
+    public ProductResponse getProductResponse(long id) {
+        LOGGER.info("Retrieving product {}", id);
+
+        final Product product = getProduct(id);
+        return objectMapper.convertValue(product, ProductResponse.class);
     }
 
     public Product getProduct(long id) {
-        LOGGER.info("Retrieving product {}", id);
-
-         return productRepository.findById(id)
-                 .orElseThrow(() -> new ResourceNotFoundException("Product " + id + " not found."));
+        return productRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Product " + id + " not found."));
     }
 
     public Page<ProductResponse> getProducts(GetProductsRequest request, Pageable pageable) {
@@ -74,14 +83,16 @@ public class ProductService {
 
     }
 
-    public Product updateProduct(long id, SaveProductRequest request) {
+    public ProductResponse updateProduct(long id, SaveProductRequest request) {
         LOGGER.info("Updating product {}: {}", id, request);
 
         final Product product = getProduct(id);
 
         BeanUtils.copyProperties(request, product);
 
-        return  productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+
+        return objectMapper.convertValue(savedProduct, ProductResponse.class);
     }
 
     public void deleteProduct(long id) {

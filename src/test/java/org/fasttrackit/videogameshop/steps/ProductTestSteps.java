@@ -2,6 +2,7 @@ package org.fasttrackit.videogameshop.steps;
 
 import org.fasttrackit.videogameshop.domain.Product;
 import org.fasttrackit.videogameshop.service.ProductService;
+import org.fasttrackit.videogameshop.transfer.Product.ProductResponse;
 import org.fasttrackit.videogameshop.transfer.Product.SaveProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,13 +18,13 @@ public class ProductTestSteps {
     @Autowired
     private ProductService productService;
 
-    public Product createProduct() {
+    public ProductResponse createProduct() {
         SaveProductRequest request = new SaveProductRequest();
         request.setName("GTA-5");
         request.setPrice(500);
         request.setQuantity(1000);
 
-        final Product product = productService.createProduct(request);
+        final ProductResponse product = productService.createProduct(request);
 
         assertThat(product, notNullValue());
         assertThat(product.getId(), greaterThan(0L));

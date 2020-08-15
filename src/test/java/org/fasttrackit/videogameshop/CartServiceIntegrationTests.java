@@ -5,6 +5,7 @@ import org.fasttrackit.videogameshop.domain.User;
 import org.fasttrackit.videogameshop.service.CartService;
 import org.fasttrackit.videogameshop.steps.ProductTestSteps;
 import org.fasttrackit.videogameshop.steps.UserSteps;
+import org.fasttrackit.videogameshop.transfer.Product.ProductResponse;
 import org.fasttrackit.videogameshop.transfer.cart.AddProductsToCartRequest;
 import org.fasttrackit.videogameshop.transfer.cart.CartResponse;
 import org.junit.jupiter.api.Test;
@@ -31,12 +32,29 @@ public class CartServiceIntegrationTests {
     @Autowired
     private ProductTestSteps productTestSteps;
 
+    public void addProductToCart_whenNewUser_thenCreateCartForUser() {
+
+        User user = userSteps.createUser();
+
+        ProductResponse product = productTestSteps.createProduct();
+
+        AddProductsToCartRequest request = new AddProductsToCartRequest();
+        request.setProductIds(Collections.singletonList(product.getId()));
+
+        cartService.addProductsToCart(user.getId(), request);
+
+        CartResponse cartResponse = cartService.getCart(user.getId());
+
+        assertThat(cartResponse, notNullValue());
+
+    }
+
 
 
     @Test
     void addProductsToCart_whenNewCart_thenCartIsCreated() {
         User user = userSteps.createUser();
-        final Product product = productTestSteps.createProduct();
+        final ProductResponse product = productTestSteps.createProduct();
 
         AddProductsToCartRequest cartRequest = new AddProductsToCartRequest();
         cartRequest.setProductIds(Collections.singletonList(product.getId()));

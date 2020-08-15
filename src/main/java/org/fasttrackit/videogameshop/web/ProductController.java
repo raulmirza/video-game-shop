@@ -26,21 +26,21 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody SaveProductRequest request) {
-        final Product product = productService.createProduct(request);
+    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody SaveProductRequest request) {
+        final ProductResponse product = productService.createProduct(request);
 
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @Valid @RequestBody SaveProductRequest request) {
-        Product product = productService.updateProduct(id, request);
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable long id, @Valid @RequestBody SaveProductRequest request) {
+        ProductResponse product = productService.updateProduct(id, request);
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable long id) {
-        Product product = productService.getProduct(id);
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable long id) {
+        ProductResponse product = productService.getProductResponse(id);
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }

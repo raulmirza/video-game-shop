@@ -34,20 +34,20 @@ public class CartService {
     }
 
     @Transactional
-    public void addProductsToCart(long userId, AddProductsToCartRequest request) {
-        LOGGER.info("Adding products to cart: {}", request);
+    public void addProductsToCart(long cartId, AddProductsToCartRequest request) {
+        LOGGER.info("Adding products to cart: {}: {}", cartId, request);
 
-        final Cart cart = cartRepository.findById(request.getUserId())
+        final Cart cart = cartRepository.findById(cartId)
                 .orElse(new Cart());
 
         if (cart.getUser() == null) {
-            final User user = userService.getUser(request.getUserId());
+            final User user = userService.getUser(cartId);
 
             cart.setUser(user);
         }
 
-        for (Long id : request.getProductIds()) {
-            final Product product = productService.getProduct(id);
+        for (Long productId : request.getProductIds()) {
+            Product product = productService.getProduct(productId);
             cart.addProductToCart(product);
         }
         cartRepository.save(cart);
